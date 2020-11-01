@@ -18,8 +18,7 @@ fragment program a circle like shape.
 In the project, I have a scriptable object with all the points (ParticleArray), this is generated
 from a terrain I painted (just to have some data), with the ParticleGen script.
 
-For my tests, there's 16 million points, running at 40 FPS on my GTX970 (mostly CPU
-bound for some reason).
+For my tests, there's 16 million points, running at 40 FPS on my GTX970.
 
 ## License
 
