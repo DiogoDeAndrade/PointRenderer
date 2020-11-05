@@ -8,7 +8,8 @@ public class ParticleGen : MonoBehaviour
     public Terrain       terrain;
     public ParticleArray particles;
     public float         sampleSize;
-    
+
+#if UNITY_EDITOR
     [Button("Sample Terrain")]
     void SampleTerrain()
     {
@@ -19,7 +20,7 @@ public class ParticleGen : MonoBehaviour
         var nParticlesZ = (int)(bounds.size.z / sampleSize);
         var nParticles = nParticlesX * nParticlesZ;
 
-        particles.particles = new List<Vector3>();
+        particles.particles = new List<ParticleArray.Particle>();
         particles.particles.Capacity = nParticles;
 
         var t0 = Time.time;
@@ -34,7 +35,8 @@ public class ParticleGen : MonoBehaviour
 
                 p.y = terrain.SampleHeight(p);
 
-                particles.particles.Add(p);
+                var particle = new ParticleArray.Particle { position = p };
+                particles.particles.Add(particle);
             }
         }
 
@@ -44,4 +46,5 @@ public class ParticleGen : MonoBehaviour
 
         UnityEditor.EditorUtility.SetDirty(particles);
     }
+#endif
 }

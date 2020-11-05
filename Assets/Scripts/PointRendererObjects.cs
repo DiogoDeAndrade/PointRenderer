@@ -16,7 +16,7 @@ public class PointRendererObjects : MonoBehaviour
         foreach (var p in particles.particles)
         {
             var newObject = Instantiate(pointPrefab, transform);
-            newObject.transform.position = p;
+            newObject.transform.position = p.position;
             newObject.transform.localScale = new Vector3(scale, scale, scale);
         }
     }

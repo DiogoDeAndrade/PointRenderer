@@ -16,7 +16,7 @@ public class PointRendererGizmos : MonoBehaviour
         
         foreach (var p in particles.particles)
         {
-            Gizmos.DrawSphere(p, size);
+            Gizmos.DrawSphere(p.position, size);
         }
     }
 }

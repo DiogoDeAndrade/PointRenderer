@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles: {fileID: 11400000, guid: b2a0d5f43dee55847b1cd9570bbe06dc, type: 2}
   pointRendererMaterial: {fileID: 2100000, guid: cd83dee7b8673f049b53915258c61759, type: 2}
-  size: 0.1
+  size: 0.5
   index32: 0
 --- !u!4 &543405265
 Transform:
