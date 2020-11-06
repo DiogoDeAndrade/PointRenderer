@@ -93,7 +93,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            #pragma target 4.5
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
 			#pragma require geometry
@@ -408,7 +408,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            #pragma target 4.5
             #pragma multi_compile_instancing
 			#pragma require geometry
 
@@ -658,7 +658,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            #pragma target 4.5
             #pragma multi_compile_instancing
 			#pragma require geometry
 
@@ -908,7 +908,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            #pragma target 4.5
 			#pragma require geometry
 
             // Keywords
@@ -1166,7 +1166,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 2.0
+            #pragma target 4.5
             #pragma multi_compile_instancing
 			#pragma require geometry
 

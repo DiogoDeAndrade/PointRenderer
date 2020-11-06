@@ -6,6 +6,7 @@ using Unity.Mathematics;
 
 public struct PositionComponent : IComponentData
 {
-    public float3 position;
-    public float  baseY;
+    public int      index;
+    public Vector3  position;
+    public float    baseY;
 }
