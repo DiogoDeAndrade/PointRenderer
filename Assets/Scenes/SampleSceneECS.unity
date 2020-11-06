@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -276,9 +276,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles: {fileID: 11400000, guid: b2a0d5f43dee55847b1cd9570bbe06dc, type: 2}
   pointRendererMaterial: {fileID: 2100000, guid: cd83dee7b8673f049b53915258c61759, type: 2}
-  size: 1
+  size: 0.25
   index32: 0
   ecsEnable: 1
+  meshUpdate: 1
+  elapsedTime: 0
 --- !u!4 &543405265
 Transform:
   m_ObjectHideFlags: 0

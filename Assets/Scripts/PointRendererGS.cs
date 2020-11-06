@@ -12,6 +12,7 @@ public class PointRendererGS : MonoBehaviour
     public float            size = 1.0f;
     public bool             index32 = false;
     public bool             ecsEnable = false;
+    public bool             meshUpdate = true;
 
     class MeshData
     {
@@ -23,6 +24,7 @@ public class PointRendererGS : MonoBehaviour
 
     [HideInInspector] public NativeArray<Vector3>    vertices;
     [HideInInspector] public JobHandle               updateJob;
+    [HideInInspector] public float                   elapsedTime;
 
     void Start()
     {
@@ -149,11 +151,12 @@ public class PointRendererGS : MonoBehaviour
 
     void LateUpdate()
     {
-        updateJob.Complete();
+        elapsedTime = Time.time;
 
         if (ecsEnable)
         {
-            UpdateMeshes();
+            updateJob.Complete();
+            if (meshUpdate) UpdateMeshes();
         }
 
         pointRendererMaterial.SetFloat("_Size", size);
@@ -217,7 +220,7 @@ public class PointRendererGS : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (vertices != null)
+        if (ecsEnable)
         {
             vertices.Dispose();
         }

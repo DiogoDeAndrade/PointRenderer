@@ -6,55 +6,6 @@ Shader "PointRenderShader"
 	}
 		SubShader
 	{
-		HLSLINCLUDE
-
-		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-		#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl"
-		#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/ShaderVariablesFunctions.hlsl"	
-
-		struct GeomData
-		{
-			float4 positionCS : SV_POSITION;
-			float3 interp00 : TEXCOORD0;
-			float3 interp01 : TEXCOORD1;
-			float4 interp02 : TEXCOORD2;
-			float3 interp03 : TEXCOORD3;
-			float2 interp04 : TEXCOORD4;
-			float3 interp05 : TEXCOORD5;
-			float4 interp06 : TEXCOORD6;
-			float4 interp07 : TEXCOORD7;
-		};
-
-		uniform float _Size;
-
-		[maxvertexcount(6)]
-		void geom(point GeomData input[1], inout TriangleStream<GeomData> triStream)
-		{
-			GeomData vert0 = input[0];
-			GeomData vert1 = input[0];
-			GeomData vert2 = input[0];
-			GeomData vert3 = input[0];
-
-			float dx = _Size * 0.5f;
-			float dy = dx * _ScreenParams.x / _ScreenParams.y;
-
-			vert0.positionCS += float4(-dx, dy, 0, 0);
-			vert1.positionCS += float4( dx, dy, 0, 0);
-			vert2.positionCS += float4(-dx, -dy, 0, 0);
-			vert3.positionCS += float4( dx, -dy, 0, 0);
-
-			triStream.Append(vert0);
-			triStream.Append(vert1);
-			triStream.Append(vert2);
-			triStream.Append(vert3);
-			triStream.RestartStrip();
-		}
-
-		ENDHLSL
 
         Tags
         {
@@ -80,6 +31,45 @@ Shader "PointRenderShader"
             
         
             HLSLPROGRAM
+
+		    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl"
+		    #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/ShaderVariablesFunctions.hlsl"	
+
+		    struct GeomData
+		    {
+			    float4 positionCS : SV_POSITION;
+		    };
+
+		    uniform float _Size;
+
+		    [maxvertexcount(6)]
+		    void geom(point GeomData input[1], inout TriangleStream<GeomData> triStream)
+		    {
+			    GeomData vert0 = input[0];
+			    GeomData vert1 = input[0];
+			    GeomData vert2 = input[0];
+			    GeomData vert3 = input[0];
+
+			    float dx = _Size * 0.5f;
+			    float dy = dx * _ScreenParams.x / _ScreenParams.y;
+
+			    vert0.positionCS += float4(-dx, dy, 0, 0);
+			    vert1.positionCS += float4( dx, dy, 0, 0);
+			    vert2.positionCS += float4(-dx, -dy, 0, 0);
+			    vert3.positionCS += float4( dx, -dy, 0, 0);
+
+			    triStream.Append(vert0);
+			    triStream.Append(vert1);
+			    triStream.Append(vert2);
+			    triStream.Append(vert3);
+			    triStream.RestartStrip();
+		    }
+
             #pragma vertex vert
 			#pragma geometry geom
             #pragma fragment frag
@@ -93,7 +83,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 4.5
+            #pragma target 2.0
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
 			#pragma require geometry
@@ -242,30 +232,6 @@ Shader "PointRenderShader"
             struct PackedVaryings
             {
                 float4 positionCS : SV_POSITION;
-                #if defined(LIGHTMAP_ON)
-                #endif
-                #if !defined(LIGHTMAP_ON)
-                #endif
-                #if UNITY_ANY_INSTANCING_ENABLED
-                uint instanceID : CUSTOM_INSTANCE_ID;
-                #endif
-                float3 interp00 : TEXCOORD0;
-                float3 interp01 : TEXCOORD1;
-                float4 interp02 : TEXCOORD2;
-                float3 interp03 : TEXCOORD3;
-                float2 interp04 : TEXCOORD4;
-                float3 interp05 : TEXCOORD5;
-                float4 interp06 : TEXCOORD6;
-                float4 interp07 : TEXCOORD7;
-                #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
-                uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
-                #endif
-                #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
-                uint stereoTargetEyeIndexAsBlendIdx0 : BLENDINDICES0;
-                #endif
-                #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
-                FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
-                #endif
             };
             
             // Packed Type: Varyings
@@ -273,30 +239,6 @@ Shader "PointRenderShader"
             {
                 PackedVaryings output = (PackedVaryings)0;
                 output.positionCS = input.positionCS;
-                output.interp00.xyz = input.positionWS;
-                output.interp01.xyz = input.normalWS;
-                output.interp02.xyzw = input.tangentWS;
-                output.interp03.xyz = input.viewDirectionWS;
-                #if defined(LIGHTMAP_ON)
-                output.interp04.xy = input.lightmapUV;
-                #endif
-                #if !defined(LIGHTMAP_ON)
-                output.interp05.xyz = input.sh;
-                #endif
-                output.interp06.xyzw = input.fogFactorAndVertexLight;
-                output.interp07.xyzw = input.shadowCoord;
-                #if UNITY_ANY_INSTANCING_ENABLED
-                output.instanceID = input.instanceID;
-                #endif
-                #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
-                output.stereoTargetEyeIndexAsRTArrayIdx = input.stereoTargetEyeIndexAsRTArrayIdx;
-                #endif
-                #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
-                output.stereoTargetEyeIndexAsBlendIdx0 = input.stereoTargetEyeIndexAsBlendIdx0;
-                #endif
-                #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
-                output.cullFace = input.cullFace;
-                #endif
                 return output;
             }
             
@@ -305,30 +247,6 @@ Shader "PointRenderShader"
             {
                 Varyings output = (Varyings)0;
                 output.positionCS = input.positionCS;
-                output.positionWS = input.interp00.xyz;
-                output.normalWS = input.interp01.xyz;
-                output.tangentWS = input.interp02.xyzw;
-                output.viewDirectionWS = input.interp03.xyz;
-                #if defined(LIGHTMAP_ON)
-                output.lightmapUV = input.interp04.xy;
-                #endif
-                #if !defined(LIGHTMAP_ON)
-                output.sh = input.interp05.xyz;
-                #endif
-                output.fogFactorAndVertexLight = input.interp06.xyzw;
-                output.shadowCoord = input.interp07.xyzw;
-                #if UNITY_ANY_INSTANCING_ENABLED
-                output.instanceID = input.instanceID;
-                #endif
-                #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
-                output.stereoTargetEyeIndexAsRTArrayIdx = input.stereoTargetEyeIndexAsRTArrayIdx;
-                #endif
-                #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
-                output.stereoTargetEyeIndexAsBlendIdx0 = input.stereoTargetEyeIndexAsBlendIdx0;
-                #endif
-                #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
-                output.cullFace = input.cullFace;
-                #endif
                 return output;
             }
         
@@ -395,8 +313,7 @@ Shader "PointRenderShader"
             
         
             HLSLPROGRAM
-            #pragma vertex vert
-			#pragma geometry geom
+            #pragma vertex vert			
 			#pragma fragment frag
         
             // Debug
@@ -408,7 +325,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 4.5
+            #pragma target 2.0
             #pragma multi_compile_instancing
 			#pragma require geometry
 
@@ -646,7 +563,6 @@ Shader "PointRenderShader"
         
             HLSLPROGRAM
             #pragma vertex vert
-			#pragma geometry geom
             #pragma fragment frag
         
             // Debug
@@ -658,7 +574,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 4.5
+            #pragma target 2.0
             #pragma multi_compile_instancing
 			#pragma require geometry
 
@@ -896,7 +812,6 @@ Shader "PointRenderShader"
         
             HLSLPROGRAM
             #pragma vertex vert
-			#pragma geometry geom
 			#pragma fragment frag
         
             // Debug
@@ -908,7 +823,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 4.5
+            #pragma target 2.0
 			#pragma require geometry
 
             // Keywords
@@ -1154,7 +1069,6 @@ Shader "PointRenderShader"
         
             HLSLPROGRAM
             #pragma vertex vert
-			#pragma geometry geom
 			#pragma fragment frag
         
             // Debug
@@ -1166,7 +1080,7 @@ Shader "PointRenderShader"
             // Pragmas
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-            #pragma target 4.5
+            #pragma target 2.0
             #pragma multi_compile_instancing
 			#pragma require geometry
 
